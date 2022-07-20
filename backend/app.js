@@ -1,21 +1,21 @@
 const express = require('express')
-
-const app = new express();
 var request = require("request");
-const PORT = 3000
-var api_key ="d1231e15033c8b8fe5eb81405bd75584"
-var api_url="GET https://gnews.io/api/v4/search?q=tesla&from=2022-06-1&sortby=published&Attoken=API-Token="+api_key
+const app = new express();
 
-app.get('/',(req, res)=> {
+const PORT = 3000
+var api_key = "d1231e15033c8b8fe5eb81405bd75584"
+var api_url = "GET https://gnews.io/api/v4/search?q=tesla&from=2022-06-1&sortby=published&Attoken=API-Token=" + api_key
+
+app.get('/', (expreq, expres) => {
     request({
         url: api_url,
-        method:GET
+        method: "GET"
     },
         function (err, res, body) {
             console.log(body);
             var data = JSON.parse(body);
             var finalResponse = `<style>
-            table tbody thead th{
+            table thead th{
                 background-color:black;
                 color:blue
             }
@@ -43,8 +43,10 @@ app.get('/',(req, res)=> {
                 <td> ${data[i].publishedAt}</td>
                 <td>${data[i].content}</td></tr>`
             }
-            
-            
+            finalResponse += `</tbody></table></body></html>`;
+            expres.send(finalResponse)
+
+
         }
     )
 })
